@@ -1,412 +1,184 @@
-// ============================================
-// مشروع مشاركة المشاعر - حمودي وفوفو
-// ============================================
+/* ========== محاور الذكاء اللغوي: 6 محاور × 10 أسئلة = 60 ========== */
+const AXES = [
+  {name:"القراءة والمطالعة", qs:[
+    "أستمتع بقراءة الكتب، الروايات، أو المقالات الطويلة في أوقات فراغي.",
+    "أعتبر زيارة المكتبات ومعارض الكتب نشاطاً ترفيهياً ممتعاً.",
+    "أقرأ اللوحات الإرشادية، الإعلانات، والنصوص الصغيرة في الأماكن العامة بفضول.",
+    "أستطيع قراءة نصوص معقدة وفهم مغزاها دون الشعور بالملل.",
+    "أهتم بمتابعة كتبي ومؤلفي المفضلين بانتظام.",
+    "أفضّل الحصول على معلوماتي من خلال القراءة بدلاً من الاستماع لشرح مرئي.",
+    "أقرأ بانتظام في مجالات متنوعة (أدب، تاريخ، علوم، سياسة) لتوسيع مداركي.",
+    "أجد صعوبة في ترك كتاب بدأته دون أن أكمله حتى النهاية.",
+    "أهتم بوجود مكتبة خاصة في منزلي أو على هاتفي تضم كتبي المفضلة.",
+    "أستمتع بمناقشة الكتب والقصص التي قرأتها مع الأصدقاء."
+  ]},
+  {name:"التعبير الكتابي والتدوين", qs:[
+    "أجد سهولة كبيرة في صياغة أفكاري كتابةً مقارنة بالتعبير عنها شفهياً.",
+    "أستمتع بكتابة الخواطر، القصص، الشعر، أو مذكراتي اليومية.",
+    "أهتم بصياغة الرسائل الإلكترونية ورسائل التواصل بدقة واحترافية.",
+    "يطلب مني زملائي أو أصدقائي صياغة أو مراجعة النصوص والرسائل الخاصة بهم.",
+    "أستخدم الكتابة كوسيلة لتفريغ مشاعري أو تنظيم أفكاري المشتتة.",
+    "أهتم بعلامات الترقيم (الفاصلة، النقطة، الأقواس) أثناء الكتابة.",
+    "أستمتع بتلخيص المقالات الطويلة أو الكتب في نقاط مختصرة وجذابة.",
+    "أجد متعة في اختيار عناوين مبتكرة وقوية للمواضيع والمنشورات.",
+    "أستطيع كتابة تقارير عمل أو بحوث دراسية متماسكة وبأسلوب سلس.",
+    "أفضّل التواصل النصي (الشات) على المكالمات الصوتية في كثير من الأحيان."
+  ]},
+  {name:"الحصيلة اللغوية والبلاغة", qs:[
+    "أمتلك حصيلة واسعة من الكلمات والمفردات التي تميز أسلوبي.",
+    "أحب استخدام التشبيهات، الاستعارات، والأمثال الشعبية أثناء حديثي.",
+    "يثير فضولي البحث عن معاني الكلمات الجديدة أو الغريبة التي تمر عليّ.",
+    "أستطيع التفريق بين المترادفات واختيار الكلمة الأدق لتوصيل المعنى المعين.",
+    "تستهويني دراسة قواعد النحو، الصرف، أو اشتقاق الكلمات.",
+    "ألاحظ الأخطاء الإملائية واللغوية في النصوص المكتوبة فوراً ويزعجني وجودها.",
+    "أستمتع بالاستماع إلى الخطب البليغة، القصائد الشعرية، أو النثر الأدبي.",
+    "أستطيع تعديل نبرة وأسلوب كلامي ليتناسب مع الجمهور (أطفال، مسؤولين، أصدقاء).",
+    "أهتم بجرس الكلمات وموسيقاها الداخلية عند صياغة الجمل.",
+    "أرى أن الكلمات هي أقوى أداة يمكن للإنسان استخدامها للإقناع والتأثير."
+  ]},
+  {name:"مهارات التحدث والإقناع والنقاش", qs:[
+    "أستطيع التحدث أمام الجمهور أو في الاجتماعات دون شعور بالارتباك.",
+    "أجد سهولة في إقناع الآخرين بوجهة نظري باستخدام الحجج اللفظية.",
+    "أستمتع بالمشاركة في المناظرات، النقاشات الحوارية، والمجالس الثقافية.",
+    "يصفني الآخرون بأنني متحدث لبق وذو لسان فصيح.",
+    "أستطيع إدارة الحوارات وتوجيهها بذكاء دون إشعار الأطراف بالضيق.",
+    "أنجح في حل النزاعات بين أصدقائي أو زملائي من خلال الكلام الدبلوماسي.",
+    "أستطيع الارتجال والتحدث في موضوع ما دون تحضير مسبق وبشكل جيد.",
+    "أستخدم الفكاهة اللفظية والدعابات الذكية القائمة على التلاعب بالكلمات.",
+    "أستمع للآخرين بدقة لكي أرد على حججهم بكلام مفند ومنظم.",
+    "أجد متعة في رواية القصص والحكايات بأسلوب شيق يشد انتباه المستمعين."
+  ]},
+  {name:"الذاكرة اللفظية والسمعية", qs:[
+    "أحفظ الأشعار، الأغاني، أو النصوص الدينية بسرعة وسهولة.",
+    "أتذكر أسماء الأشخاص، الأماكن، والعناوين بدقة تفوق تذكري للملامح والأشكال.",
+    "أستمتع بالاستماع إلى الكتب الصوتية أو البرامج الإذاعية والبودكاست.",
+    "أستطيع تذكر الاقتباسات والعبارات الشهيرة التي قالها الآخرون في مواقف معينة.",
+    "يسهل عليّ حفظ المصطلحات العلمية أو الكلمات الأجنبية الجديدة بمجرد سماعها.",
+    "أتذكر تفاصيل الحوارات القديمة التي دارت بيني وبين الآخرين بدقة كبيرة.",
+    "أتعلم الأشياء الجديدة بشكل أفضل عندما أقوم بشرحها وتسميعها لنفسي بصوت عالٍ.",
+    "أستطيع تذكر النكات والقصص الطويلة وإعادة روايتها بنفس تفاصيلها اللفظية.",
+    "تلفت انتباهي الفروقات الدقيقة في لهجات الناس وطرق نطقهم للحروف.",
+    "أجد أن الحفظ البصري للكلمات (شكل الكلمة) يساعدني على تذكرها لاحقاً."
+  ]},
+  {name:"الألعاب اللغوية وتعلم اللغات", qs:[
+    "أستمتع بألعاب الكلمات مثل (Scrabble) أو الجناس والطباق والألغاز اللفظية.",
+    "أمتلك شغفاً وقدرة عالية على تعلم لغات أجنبية جديدة وتحدثها بطلاقة.",
+    "أستمتع بترجمة النصوص أو العبارات من لغة إلى أخرى ومحاولة ضبط المعنى.",
+    "ألاحظ الفروق الثقافية في استخدام العبارات بين الشعوب والمجتمعات المختلفة.",
+    "أستطيع تقليد الأصوات، اللهجات، أو طرائق كلام الآخرين على سبيل المحاكاة أو الترفيه.",
+    "أجد متعة في حل التمارين التي تتطلب ترتيب الجمل المبعثرة أو ملء الفراغات اللغوية.",
+    "تستهويني معرفة أصول الكلمات وتاريخ تطور اللغات.",
+    "أستخدم تطبيقات الهاتف لتعلم لغات جديدة أو لتطوير مفرداتي بانتظام.",
+    "أستطيع التفكير باللغة الأجنبية التي تعلمتها دون الحاجة للترجمة العقلية إلى لغتي الأم.",
+    "أرى أن اتقان أكثر من لغة يفتح للإنسان آفاقاً فكرية وثقافية لا حدود لها."
+  ]}
+];
 
-// -- إعدادات Supabase --
-const SUPABASE_URL = 'https://nviviicpompmdokkritx.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52aXZpaWNwb21wbWRva2tyaXR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcyMTc3NzQsImV4cCI6MjEwMjc5Mzc3NH0.hqqp-bqejHF7AlGhlfLcoyZ1MEhGGsqkfilZy1gaG6E';
+/* نظام العلامات: الحد الأقصى = 60 × 2 = 120 → تُقاس على 100 */
+const TOTAL_Q = 60;
+const MAX_SCORE = TOTAL_Q * 2; // 120
 
-// -- تهيئة Supabase --
-// ملاحظة: لا نستخدم اسم "supabase" كمتغير لأنه يتعارض مع window.supabase من الـ SDK
-var supabaseClient = null;
-var supabaseAvailable = false;
+const OPTIONS = [
+  {label:"أبداً", v:0},
+  {label:"أحياناً", v:0.5},
+  {label:"غالباً", v:1},
+  {label:"دائماً", v:2}
+];
 
-try {
-  if (typeof window !== 'undefined' && window.supabase && typeof window.supabase.createClient === 'function') {
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    supabaseAvailable = true;
-    console.log('[APP] Supabase initialized successfully');
-  } else {
-    console.warn('[APP] Supabase SDK not found. Using LocalStorage fallback.');
-  }
-} catch (err) {
-  console.error('[APP] Supabase init failed:', err);
-  console.warn('[APP] Using LocalStorage fallback mode.');
+let flat = [], answers = [], idx = 0;
+
+function buildFlat(){
+  flat = [];
+  AXES.forEach((a, ai) => a.qs.forEach(q => flat.push({axis: ai, text: q})));
 }
 
-// -- المتغيرات العامة --
-var currentUser = null;
-var otherUser = null;
-var realtimeChannel = null;
-
-// -- عناصر DOM --
-var loginScreen = document.getElementById('login-screen');
-var dashboardScreen = document.getElementById('dashboard-screen');
-var welcomeText = document.getElementById('welcome-text');
-var otherTitle = document.getElementById('other-title');
-var otherFeelingText = document.getElementById('other-feeling-text');
-var statusTime = document.getElementById('status-time');
-var customInput = document.getElementById('custom-feeling-input');
-var addCustomBtn = document.getElementById('add-custom-btn');
-var toastEl = document.getElementById('success-toast');
-
-// ============================================
-// LocalStorage Helpers
-// ============================================
-
-function lsGet(key) {
-  try {
-    var val = localStorage.getItem(key);
-    return val ? JSON.parse(val) : null;
-  } catch (e) {
-    return null;
-  }
+function show(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0});
 }
 
-function lsSet(key, value) {
-  try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch (e) {
-    console.error('[APP] localStorage error:', e);
-  }
+function startQuiz(){
+  buildFlat();
+  answers = new Array(TOTAL_Q).fill(null);
+  idx = 0;
+  show('quiz');
+  renderQ();
 }
 
-// ============================================
-// شاشة تسجيل الدخول
-// ============================================
+const arNum = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
 
-function initLoginScreen() {
-  console.log('[APP] Initializing login screen...');
-  var userCards = document.querySelectorAll('.user-card');
-  console.log('[APP] Found user cards:', userCards.length);
+function renderQ(){
+  const q = flat[idx];
+  document.getElementById('counter').textContent = arNum(idx+1) + " / " + arNum(TOTAL_Q);
+  document.getElementById('barFill').style.width = (idx/TOTAL_Q*100) + "%";
+  document.getElementById('axisTag').textContent = "المحور: " + AXES[q.axis].name;
+  document.getElementById('qText').textContent = q.text;
 
-  for (var i = 0; i < userCards.length; i++) {
-    (function(card) {
-      card.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var selectedUser = card.getAttribute('data-user');
-        console.log('[APP] Card clicked:', selectedUser);
-        login(selectedUser);
-      });
-    })(userCards[i]);
-  }
+  const box = document.getElementById('opts');
+  box.innerHTML = "";
+  OPTIONS.forEach(o => {
+    const b = document.createElement('button');
+    b.className = 'opt' + (answers[idx] === o.v ? ' sel' : '');
+    b.innerHTML = '<span class="dot"></span>' + o.label;
+    b.onclick = () => {
+      answers[idx] = o.v;
+      box.querySelectorAll('.opt').forEach(x => x.classList.remove('sel'));
+      b.classList.add('sel');
+      document.getElementById('nextBtn').disabled = false;
+      setTimeout(nextQ, 260);
+    };
+    box.appendChild(b);
+  });
+
+  document.getElementById('prevBtn').style.visibility = idx === 0 ? 'hidden' : 'visible';
+  document.getElementById('nextBtn').textContent = idx === TOTAL_Q - 1 ? "عرض النتيجة" : "التالي";
+  document.getElementById('nextBtn').disabled = answers[idx] === null;
 }
 
-function login(userName) {
-  console.log('[APP] Logging in as:', userName);
-  currentUser = userName;
-  otherUser = (userName === 'حمودي') ? 'فوفو' : 'حمودي';
-
-  localStorage.setItem('currentUser', currentUser);
-
-  showScreen('dashboard');
-
-  if (welcomeText) welcomeText.textContent = 'مرحباً ' + currentUser;
-  if (otherTitle) otherTitle.textContent = 'حالة ' + otherUser;
-
-  loadMyFeeling();
-  loadOtherFeeling();
-
-  if (supabaseAvailable) {
-    subscribeToRealtime();
-  }
+function nextQ(){
+  if(answers[idx] === null) return;
+  if(idx < TOTAL_Q - 1){ idx++; renderQ(); }
+  else showResult();
 }
 
-function logout() {
-  console.log('[APP] Logging out...');
-  currentUser = null;
-  otherUser = null;
-  localStorage.removeItem('currentUser');
+function prevQ(){ if(idx > 0){ idx--; renderQ(); } }
 
-  if (realtimeChannel) {
-    try { realtimeChannel.unsubscribe(); } catch(e) {}
-    realtimeChannel = null;
-  }
-
-  var radios = document.querySelectorAll('input[name="feeling"]');
-  for (var i = 0; i < radios.length; i++) {
-    radios[i].checked = false;
-  }
-  if (customInput) customInput.value = '';
-
-  showScreen('login');
+/* ========== النتيجة ========== */
+function verdict(s){
+  if(s >= 85) return "ذكاء مرتفع جداً";
+  if(s >= 65) return "ذكاء فوق المتوسط";
+  if(s >= 40) return "ذكاء متوسط";
+  return "ذكاء منخفض";
 }
 
-// ============================================
-// إدارة الشاشات
-// ============================================
+function showResult(){
+  /* العلامة النهائية من 100 = (المجموع ÷ 120) × 100 */
+  const raw = answers.reduce((a,b) => a + b, 0);
+  const score = Math.round(raw / MAX_SCORE * 100);
 
-function showScreen(screenName) {
-  console.log('[APP] Switching to screen:', screenName);
-  if (screenName === 'login') {
-    if (dashboardScreen) dashboardScreen.classList.remove('active');
-    setTimeout(function() {
-      if (loginScreen) loginScreen.classList.add('active');
-    }, 50);
-  } else {
-    if (loginScreen) loginScreen.classList.remove('active');
-    setTimeout(function() {
-      if (dashboardScreen) dashboardScreen.classList.add('active');
-    }, 50);
-  }
-}
+  show('result');
+  document.getElementById('verdict').textContent = verdict(score);
 
-// ============================================
-// إدارة المشاعر
-// ============================================
+  const C = 2 * Math.PI * 84;
+  const ring = document.getElementById('ringFg');
+  ring.style.strokeDasharray = C;
+  ring.style.strokeDashoffset = C;
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      ring.style.strokeDashoffset = C * (1 - score/100);
+    });
+  });
 
-async function saveFeeling(feeling) {
-  if (!currentUser) return;
-  console.log('[APP] Saving feeling:', feeling, 'for user:', currentUser);
-
-  if (supabaseAvailable && supabaseClient) {
-    try {
-      var result = await supabaseClient
-        .from('feelings')
-        .insert([{ user_name: currentUser, feeling: feeling }]);
-
-      if (result.error) {
-        console.error('[APP] Supabase save error:', result.error);
-        saveFeelingLocal(feeling);
-      } else {
-        console.log('[APP] Feeling saved to Supabase');
-      }
-    } catch (err) {
-      console.error('[APP] Supabase exception:', err);
-      saveFeelingLocal(feeling);
-    }
-  } else {
-    saveFeelingLocal(feeling);
-  }
-
-  showToast('تم تحديث شعورك بنجاح');
-  loadOtherFeeling();
-}
-
-function saveFeelingLocal(feeling) {
-  var data = lsGet('feelings_data') || {};
-  data[currentUser] = {
-    feeling: feeling,
-    created_at: new Date().toISOString()
+  let n = 0;
+  const el = document.getElementById('scoreNum');
+  const step = () => {
+    n += Math.max(1, Math.ceil((score - n)/10));
+    if(n >= score) n = score;
+    el.textContent = arNum(n);
+    if(n < score) setTimeout(step, 60);
   };
-  lsSet('feelings_data', data);
-  console.log('[APP] Feeling saved to LocalStorage');
+  step();
 }
 
-async function loadMyFeeling() {
-  if (!currentUser) return;
-
-  if (supabaseAvailable && supabaseClient) {
-    try {
-      var result = await supabaseClient
-        .from('feelings')
-        .select('feeling')
-        .eq('user_name', currentUser)
-        .order('created_at', { ascending: false })
-        .limit(1);
-
-      if (!result.error && result.data && result.data.length > 0) {
-        selectFeelingInUI(result.data[0].feeling);
-        return;
-      }
-    } catch (err) {
-      console.error('[APP] Load my feeling error:', err);
-    }
-  }
-
-  // Fallback to LocalStorage
-  var data = lsGet('feelings_data') || {};
-  if (data[currentUser]) {
-    selectFeelingInUI(data[currentUser].feeling);
-  }
-}
-
-async function loadOtherFeeling() {
-  if (!otherUser) return;
-  console.log('[APP] Loading other feeling for:', otherUser);
-
-  if (supabaseAvailable && supabaseClient) {
-    try {
-      var result = await supabaseClient
-        .from('feelings')
-        .select('feeling, created_at')
-        .eq('user_name', otherUser)
-        .order('created_at', { ascending: false })
-        .limit(1);
-
-      if (result.error) {
-        console.error('[APP] Supabase load other error:', result.error);
-        loadOtherFeelingLocal();
-        return;
-      }
-
-      if (result.data && result.data.length > 0) {
-        if (otherFeelingText) otherFeelingText.textContent = result.data[0].feeling;
-        if (statusTime) statusTime.textContent = formatTime(result.data[0].created_at);
-      } else {
-        if (otherFeelingText) otherFeelingText.textContent = 'لم يشارك شعوراً بعد';
-        if (statusTime) statusTime.textContent = '';
-      }
-      return;
-    } catch (err) {
-      console.error('[APP] Load other feeling exception:', err);
-    }
-  }
-
-  loadOtherFeelingLocal();
-}
-
-function loadOtherFeelingLocal() {
-  var data = lsGet('feelings_data') || {};
-  if (data[otherUser]) {
-    if (otherFeelingText) otherFeelingText.textContent = data[otherUser].feeling;
-    if (statusTime) statusTime.textContent = formatTime(data[otherUser].created_at);
-  } else {
-    if (otherFeelingText) otherFeelingText.textContent = 'لم يشارك شعوراً بعد';
-    if (statusTime) statusTime.textContent = '';
-  }
-}
-
-// ============================================
-// واجهة المستخدم
-// ============================================
-
-function selectFeelingInUI(feeling) {
-  var radios = document.querySelectorAll('input[name="feeling"]');
-  var found = false;
-
-  for (var i = 0; i < radios.length; i++) {
-    if (radios[i].value === feeling) {
-      radios[i].checked = true;
-      found = true;
-    } else {
-      radios[i].checked = false;
-    }
-  }
-
-  if (!found) {
-    if (customInput) customInput.value = feeling;
-  } else {
-    if (customInput) customInput.value = '';
-  }
-}
-
-function addCustomFeeling() {
-  var feeling = customInput ? customInput.value.trim() : '';
-  if (!feeling) {
-    if (customInput) customInput.focus();
-    return;
-  }
-
-  var radios = document.querySelectorAll('input[name="feeling"]');
-  for (var i = 0; i < radios.length; i++) {
-    radios[i].checked = false;
-  }
-  saveFeeling(feeling);
-}
-
-function showToast(message, isError) {
-  isError = isError || false;
-  if (!toastEl) return;
-  var span = toastEl.querySelector('span');
-  if (span) span.textContent = message;
-
-  if (isError) {
-    toastEl.style.background = '#c75a82';
-  } else {
-    toastEl.style.background = 'var(--text-main)';
-  }
-
-  toastEl.classList.add('show');
-
-  setTimeout(function() {
-    toastEl.classList.remove('show');
-  }, 2500);
-}
-
-function formatTime(dateString) {
-  var date = new Date(dateString);
-  var now = new Date();
-  var diff = Math.floor((now - date) / 1000);
-
-  if (diff < 60) return 'منذ لحظات';
-  if (diff < 3600) return 'منذ ' + Math.floor(diff / 60) + ' دقيقة';
-  if (diff < 86400) return 'منذ ' + Math.floor(diff / 3600) + ' ساعة';
-  return 'منذ ' + Math.floor(diff / 86400) + ' يوم';
-}
-
-// ============================================
-// Realtime - تحديثات فورية
-// ============================================
-
-function subscribeToRealtime() {
-  if (!supabaseAvailable || !supabaseClient) return;
-
-  if (realtimeChannel) {
-    try { realtimeChannel.unsubscribe(); } catch(e) {}
-  }
-
-  realtimeChannel = supabaseClient
-    .channel('feelings-channel')
-    .on(
-      'postgres_changes',
-      {
-        event: 'INSERT',
-        schema: 'public',
-        table: 'feelings',
-        filter: 'user_name=eq.' + otherUser
-      },
-      function(payload) {
-        console.log('[APP] Realtime update:', payload);
-        loadOtherFeeling();
-      }
-    )
-    .subscribe(function(status) {
-      console.log('[APP] Realtime status:', status);
-    });
-}
-
-// ============================================
-// إعداد الأحداث
-// ============================================
-
-function initEventListeners() {
-  console.log('[APP] Initializing event listeners...');
-
-  initLoginScreen();
-
-  var logoutBtn = document.getElementById('logout-btn');
-  if (logoutBtn) logoutBtn.addEventListener('click', logout);
-
-  var radios = document.querySelectorAll('input[name="feeling"]');
-  for (var i = 0; i < radios.length; i++) {
-    radios[i].addEventListener('change', function(e) {
-      if (e.target.checked) {
-        if (customInput) customInput.value = '';
-        saveFeeling(e.target.value);
-      }
-    });
-  }
-
-  if (addCustomBtn) addCustomBtn.addEventListener('click', addCustomFeeling);
-
-  if (customInput) {
-    customInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        addCustomFeeling();
-      }
-    });
-  }
-
-  console.log('[APP] Event listeners initialized');
-}
-
-// ============================================
-// تهيئة التطبيق
-// ============================================
-
-function checkExistingSession() {
-  var savedUser = localStorage.getItem('currentUser');
-  if (savedUser && (savedUser === 'حمودي' || savedUser === 'فوفو')) {
-    console.log('[APP] Restoring session for:', savedUser);
-    login(savedUser);
-  }
-}
-
-// بدء التطبيق
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('[APP] DOM loaded, starting app...');
-  initEventListeners();
-  checkExistingSession();
-});
+function restart(){ show('start'); }

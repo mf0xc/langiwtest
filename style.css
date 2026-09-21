@@ -1,0 +1,556 @@
+/* ============================================
+   مشروع مشاركة المشاعر - فرات وفوفو
+   تصميم عصري باللون الزهري
+   ============================================ */
+
+/* Reset & Base */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #e88aaa;
+  --primary-light: #f5c6d6;
+  --primary-dark: #c75a82;
+  --primary-soft: #fce4ec;
+  --bg: #faf5f7;
+  --bg-card: #ffffff;
+  --text-main: #4a3f47;
+  --text-muted: #9e8e98;
+  --text-light: #b8a8b2;
+  --border: #f0e0e8;
+  --shadow: 0 4px 24px rgba(232, 138, 170, 0.12);
+  --shadow-hover: 0 8px 32px rgba(232, 138, 170, 0.18);
+  --radius: 20px;
+  --radius-sm: 14px;
+  --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --font: 'Tajawal', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text-main);
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Screen Management - Fixed transitions */
+.screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.45s ease, visibility 0.45s ease;
+  z-index: 1;
+  display: flex;
+  pointer-events: none;
+}
+
+.screen.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 10;
+  pointer-events: all;
+}
+
+/* ============================================
+   شاشة تسجيل الدخول
+   ============================================ */
+
+.login-container {
+  width: 100%;
+  max-width: 480px;
+  margin: auto;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.logo-area {
+  margin-bottom: 48px;
+}
+
+.logo-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  background: linear-gradient(135deg, var(--primary-soft), #fff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  box-shadow: var(--shadow);
+}
+
+.logo-icon svg {
+  width: 40px;
+  height: 40px;
+}
+
+.logo-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.logo-subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.select-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 20px;
+}
+
+.user-cards {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.user-card {
+  flex: 1;
+  max-width: 180px;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 20px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  outline: none;
+  font-family: var(--font);
+}
+
+.user-card:hover,
+.user-card:focus {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.user-card:active {
+  transform: translateY(-1px);
+}
+
+.card-avatar {
+  width: 72px;
+  height: 72px;
+  background: var(--primary-soft);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  transition: var(--transition);
+  overflow: hidden;
+  border: 3px solid var(--primary-soft);
+}
+
+.user-card:hover .card-avatar {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  transform: scale(1.05);
+}
+
+.card-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.card-hint {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  font-weight: 400;
+}
+
+/* ============================================
+   شاشة لوحة التحكم
+   ============================================ */
+
+.dashboard-container {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.welcome-area {
+  text-align: center;
+  flex: 1;
+}
+
+.welcome-area h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 4px;
+}
+
+.welcome-sub {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.logout-btn {
+  width: 40px;
+  height: 40px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  outline: none;
+}
+
+.logout-btn:hover {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  border-color: var(--primary-light);
+}
+
+.header-spacer {
+  width: 40px;
+}
+
+/* Sections */
+.section {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.section-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--primary-soft);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+}
+
+.section-icon.other-icon {
+  background: #e8f5e9;
+  color: #66bb6a;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* Feelings Grid */
+.feelings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.feeling-option {
+  cursor: pointer;
+  position: relative;
+}
+
+.feeling-option input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.feeling-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 18px 12px;
+  background: var(--bg);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  text-align: center;
+}
+
+.feeling-option:hover .feeling-box {
+  background: var(--primary-soft);
+}
+
+.feeling-option input:checked + .feeling-box {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(232, 138, 170, 0.15);
+}
+
+.feeling-label {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.feeling-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+
+/* Avatar Images */
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+/* Custom Feeling */
+.custom-feeling-area {
+  padding-top: 20px;
+  border-top: 1px dashed var(--border);
+}
+
+.custom-label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.custom-input-group {
+  display: flex;
+  gap: 10px;
+}
+
+#custom-feeling-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 0.95rem;
+  color: var(--text-main);
+  background: var(--bg);
+  outline: none;
+  transition: var(--transition);
+}
+
+#custom-feeling-input:focus {
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(232, 138, 170, 0.1);
+}
+
+#custom-feeling-input::placeholder {
+  color: var(--text-light);
+}
+
+.btn-add {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 20px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  outline: none;
+  white-space: nowrap;
+}
+
+.btn-add:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(232, 138, 170, 0.3);
+}
+
+.btn-add:active {
+  transform: translateY(0);
+}
+
+/* Other Status Card */
+.other-status-card {
+  background: linear-gradient(135deg, #f8f5f7, var(--primary-soft));
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  border: 1px solid var(--border);
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--primary);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+.status-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.status-time {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-right: 20px;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--text-main);
+  color: #fff;
+  padding: 14px 24px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 32px 16px;
+  }
+
+  .logo-title {
+    font-size: 1.6rem;
+  }
+
+  .user-cards {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .user-card {
+    max-width: none;
+    width: auto;
+    flex-direction: column;
+    padding: 20px 12px;
+    gap: 10px;
+  }
+
+  .card-avatar {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+  }
+
+  .card-name {
+    font-size: 1.05rem;
+  }
+
+  .dashboard-container {
+    padding: 16px 12px 32px;
+  }
+
+  .feelings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feeling-box {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 14px 16px;
+  }
+
+  .feeling-desc {
+    text-align: left;
+  }
+
+  .custom-input-group {
+    flex-direction: column;
+  }
+
+  .btn-add {
+    justify-content: center;
+  }
+}
